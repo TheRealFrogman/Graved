@@ -38,7 +38,7 @@ class GravedChest {
         this.p = p;
         this.bottomtext = bottomtext;
     }
-    public static GravedChest createAndRegister(Chest c, Player p, List<ItemStack> contents, String bottomtext){
+    public static GravedChest createAndRegister(Chest c, Player p, List<ItemStack> contents, String toptext,String bottomtext){
         GravedChest gc = new GravedChest(c, p, bottomtext);
         gc.c.getPersistentDataContainer().set(GRAVED_META_KEY, PersistentDataType.BOOLEAN,true);
         gc.c.update();
@@ -49,11 +49,11 @@ class GravedChest {
                 chest_inventory.addItem(item);
             }
         }
-        chest_to_text.put(gc, makeGravedChestDisplay(c,p,bottomtext));
+        chest_to_text.put(gc, makeGravedChestDisplay(c,p,toptext,bottomtext));
         return gc;
     }
     @Nonnull
-    private static TextDisplay makeGravedChestDisplay(Chest c,Player p, String bottomtext) {
+    private static TextDisplay makeGravedChestDisplay(Chest c,Player p, String toptext, String bottomtext) {
         Location cl = c.getLocation();
         World cw = c.getWorld();
 
@@ -64,7 +64,11 @@ class GravedChest {
         TextDisplay text_display = cw.spawn(cl, TextDisplay.class);
         text_display.setBillboard(Display.Billboard.CENTER);
 
-        text_display.setText(p.getName() + (bottomtext != null ? "\n\n" + bottomtext : ""));
+        text_display.setText(
+                (toptext != null ? toptext + "\n\n" : "")
+                        + p.getName()
+                        + (bottomtext != null ? "\n\n" + bottomtext : "")
+        );
         return text_display;
     }
     @Nullable
@@ -126,7 +130,7 @@ public class Graved extends JavaPlugin implements Listener {
         BlockState blockState = b.getState();
         Chest chest = (Chest)blockState;
 
-        GravedChest.createAndRegister(chest, p,drops,"Sample bottom text");
+        GravedChest.createAndRegister(chest, p,drops,"Grave of player","R.I.P.");
         drops.clear();
     }
 
