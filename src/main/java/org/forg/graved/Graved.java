@@ -112,6 +112,9 @@ public class Graved extends JavaPlugin implements Listener {
     }
     @EventHandler
     void onDeath(PlayerDeathEvent e) {
+        List<ItemStack> drops = e.getDrops();
+        if(drops.isEmpty()) return;
+
         Player p = e.getEntity();
 
         Location location = p.getLocation();
@@ -123,7 +126,6 @@ public class Graved extends JavaPlugin implements Listener {
         BlockState blockState = b.getState();
         Chest chest = (Chest)blockState;
 
-        List<ItemStack> drops = e.getDrops();
         GravedChest.createAndRegister(chest, p,drops,"Sample bottom text");
         drops.clear();
     }
