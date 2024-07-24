@@ -71,10 +71,11 @@ class GravedChest {
         text_display.setBillboard(Display.Billboard.CENTER);
 
         text_display.setText(
-                (toptext != null ? toptext + "\n\n" : "")
+                (toptext != null ? toptext + "\n" : "")
                         + p.getName()
-                        + (bottomtext != null ? "\n\n" + bottomtext : "")
+                        + (bottomtext != null ? "\n" + bottomtext : "")
         );
+
         return text_display;
     }
 
